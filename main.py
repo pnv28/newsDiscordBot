@@ -1,7 +1,6 @@
 import discord
 import logging
-from discord.ext import commands, tasks
-from discord.ext.commands import MissingPermissions
+from discord.ext import tasks
 import os
 import requests
 import random
@@ -44,11 +43,13 @@ async def news(ctx):
   newsEmbed.set_footer(text=f"Source: {source}")
   newsEmbed.set_author(name=author)
   await ctx.respond(embed = newsEmbed)
+  print(f"News article with the tile {title} has been send.")
 
 @bot.slash_command(name="start_news", description="Starts the news loop")
 async def start_news(ctx):
   if ( ctx.author.id == 389306174119608321 ) or ( ctx.author.id == 925231204104568953):
     await ctx.respond("Starting news loop...")
+    print("News Loop Started")
     newsPeriodic.start()
   else:
     await ctx.respond("You are not authorized to use this command.")
@@ -64,7 +65,7 @@ async def stop_news(ctx):
 @tasks.loop(minutes=30)
 async def newsPeriodic():
   n = random.randrange(0, 19, 3)
-  response = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&apiKey={os.getenv(NEWS_API)}")
+  response = requests.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=41009e7f277149fd8b6d6e3692b7c1ed")
   title = response.json()["articles"][n]["title"]
   snippet = response.json()["articles"][n]["description"]
   url = response.json()["articles"][n]["url"]
@@ -83,6 +84,7 @@ async def newsPeriodic():
   print(id)
   if channel is not None:
       await channel.send(embed = newsEmbed)
+      print(f"News article with the tile {title} has been send.")
 
 
 bot.run(os.getenv("TOKEN"))
