@@ -1,9 +1,8 @@
 [tool.poetry]
-name = "newsbotpotato"
-version = "0.1.0"
+name = "potatoNews"
+version = "0.1.1"
 description = ""
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
+authors = ["pnv28 <pnv28@duck.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"

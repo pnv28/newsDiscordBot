@@ -4,6 +4,7 @@ from discord.ext import tasks
 import os
 import requests
 import random
+import datetime, time
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
@@ -14,15 +15,18 @@ logger.addHandler(handler)
 activity = discord.Activity(name='news', type=discord.ActivityType.watching)
 
 bot = discord.Bot(activity=activity)
-id = 1150701854557220927
+id = 1251218385862266960
 
 @bot.event
 async def on_ready():
   print(f"{bot.user} is read to go!")
+  global startTime
+  startTime = time.time()
 
 @bot.slash_command(name= "ping", description= "Responds with Pong!")
 async def ping(ctx):
-  await ctx.respond(f"Pong! Latency is {round(bot.latency * 1000)} ms")
+  uptime = str(datetime.timedelta(seconds=int(round(time.time()-startTime))))
+  await ctx.respond(f"Pong! Latency is {round(bot.latency * 1000)} ms\nUptime: {uptime}\nBot made by <@389306174119608321>")
 
 @bot.slash_command(name= "news", description= "top news")
 async def news(ctx):
